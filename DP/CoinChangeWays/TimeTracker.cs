@@ -1,10 +1,13 @@
+using System;
+using System.Diagnostics;
+
 namespace ExecutionTimeTracker {
     public static class TimeTracker {
-        public static System.TimeSpan Execute(System.Action action) {
-            var watch = System.Diagnostics.Stopwatch.StartNew();
-            action();
+        public static TimeSpan Execute(Action action) {
+            var watch = Stopwatch.StartNew();
+            action?.Invoke();
             watch.Stop();
-            return System.TimeSpan.FromMilliseconds(watch.ElapsedMilliseconds);
+            return TimeSpan.FromMilliseconds(watch.ElapsedMilliseconds);
         }
     }
 }
