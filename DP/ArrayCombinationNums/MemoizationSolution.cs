@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace ArrayCombinationNums {
     public static class MemoizationSolution {
-        public static long numWays(long maxNumber, int length, long lastNumber) {
+        public static long numWays(int maxNumber, int length, int lastNumber) {
             var map = new Dictionary<string, long>();
             long ways = 0;
-            for (long i = 1; i <= maxNumber; i++) {
+            for (int i = 1; i <= maxNumber; i++) {
                 ways += numWays(maxNumber, length, lastNumber,
                 index: 1,
                 prevNumber: 1,
@@ -16,8 +16,11 @@ namespace ArrayCombinationNums {
             return ways;
         }
 
-        private static long numWays(long maxNumber, int length, long lastNumber, int index, long prevNumber, long currentNumber, Dictionary<string, long> map) {
-            if (index == length - 2) {
+        private static long numWays(int maxNumber, int length, int lastNumber, int index, int prevNumber, int currentNumber, Dictionary<string, long> map) {
+            if (currentNumber == prevNumber) {
+                return 0;
+            }
+            else if (index == length - 2) {
                 if (currentNumber != prevNumber && currentNumber != lastNumber) {
                     return 1;
                 }
@@ -31,12 +34,12 @@ namespace ArrayCombinationNums {
                     return value;
                 }
                 long ways = 0;
-                for (long i = 1; i <= maxNumber; i++) {
+                for (int i = 1; i <= maxNumber; i++) {
                     ways += numWays(maxNumber, length, lastNumber,
                         index: index + 1,
                         prevNumber: currentNumber,
                         currentNumber: i,
-                        map: map);
+                        map: map) % 1000000007;
                 }
                 map[key] = ways;
                 return ways;
