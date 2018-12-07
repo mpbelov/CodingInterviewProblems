@@ -2,25 +2,25 @@ using System.Text;
 namespace Abbreviation {
     public static class RecursionSolution {
         public static string abbreviation(string a, string b) {
-            var result = abbreviation1(a, b, new bool?[a.Length + 1, b.Length + 1]);
+            var result = abbreviation(a, 0, b, 0, new bool?[a.Length + 1, b.Length + 1]);
             return result ? "YES" : "NO";
         }
 
-        private static bool abbreviation1(string a, string b, bool?[,] dp) {
-            if (a.Length == 0 && b.Length == 0) {
+        private static bool abbreviation(string a, int aIndex, string b, int bindex, bool?[,] dp) {
+            if (aIndex == a.Length && bindex == b.Length) {
                 return true;
             }
-            if (a.Length == 0 && b.Length > 0) {
+            if (aIndex == a.Length && bindex < b.Length) {
                 return false;
             }
 
-            var r = dp[a.Length, b.Length];
+            var r = dp[aIndex, bindex];
             if (r.HasValue) {
                 return r.Value;
             }
 
-            if (a.Length > 0 && b.Length == 0) {
-                for (int i = 0; i < a.Length; i++) {
+            if (aIndex < a.Length && bindex == b.Length) {
+                for (int i = aIndex; i < a.Length; i++) {
                     if (char.IsUpper(a[i])) {
                         return false;
                     }
@@ -28,30 +28,30 @@ namespace Abbreviation {
                 return true;
             }
 
-            var ca = a[0];
-            var cb = b[0];
+            var ca = a[aIndex];
+            var cb = b[bindex];
 
             if (char.IsUpper(ca)) {
                 if (ca == cb) {
-                    var result = abbreviation1(a.Remove(0, 1), b.Remove(0, 1), dp);
-                    dp[a.Length, b.Length] = result;
+                    var result = abbreviation(a, aIndex + 1, b, bindex + 1, dp);
+                    dp[aIndex, bindex] = result;
                     return result;
                 }
                 else {
-                    dp[a.Length, b.Length] = false;
+                    dp[aIndex, bindex] = false;
                     return false;
                 }
             }
             else { // a is lower
                 if (char.ToUpper(ca) == cb) {
-                    var res1 = abbreviation1(a.Remove(0, 1), b.Remove(0, 1), dp);
-                    var res2 = abbreviation1(a.Remove(0, 1), b, dp);
-                    dp[a.Length, b.Length] = res1 | res2;
+                    var res1 = abbreviation(a, aIndex + 1, b, bindex + 1, dp);
+                    var res2 = abbreviation(a, aIndex + 1, b, bindex, dp);
+                    dp[aIndex, bindex] = res1 | res2;
                     return res1 | res2;
                 }
                 else {
-                    var result = abbreviation1(a.Remove(0, 1), b, dp);
-                    dp[a.Length, b.Length] = result;
+                    var result = abbreviation(a, aIndex + 1, b, bindex, dp);
+                    dp[aIndex, bindex] = result;
                     return result;
                 }
             }
