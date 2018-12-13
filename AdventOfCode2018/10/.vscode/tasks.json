@@ -1,0 +1,36 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/AdventOfCode10.csproj"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "publish",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "publish",
+                "${workspaceFolder}/AdventOfCode10.csproj"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "release",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "msbuild",
+                "-p:Configuration=Release",
+                "${workspaceFolder}/AdventOfCode10.csproj"
+            ],
+            "problemMatcher": "$msCompile"
+        }
+    ]
+}
