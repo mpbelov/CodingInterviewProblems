@@ -58,7 +58,7 @@ namespace QHEAP1 {
         private void sink(int i) {
             while (i * 2 <= Count) {
                 var smallestChildIndex = i * 2;
-                if (i * 2 + 1 < Count) {
+                if (i * 2 + 1 <= Count) {
                     var child2Index = i * 2 + 1;
                     smallestChildIndex = storage[smallestChildIndex].CompareTo(storage[child2Index]) < 0
                         ? smallestChildIndex
