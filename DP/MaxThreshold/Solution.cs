@@ -7,15 +7,12 @@ namespace MaxThreshold {
             var threshold = maxSum / numbers.Length;
 
             for (int i = 0; i < numbers.Length; i++) {
-                var thresholdCandidate = maxSum / (numbers.Length - i);
-                var currentNumber = numbers[i];
-
-                currentSum += currentNumber;
-
-                if (currentSum + thresholdCandidate * (numbers.Length - i - 1) > maxSum) {
+                threshold = (maxSum - currentSum) / (numbers.Length - i);
+                currentSum += numbers[i];
+                
+                if (currentSum + threshold * (numbers.Length - i - 1) > maxSum) {
                     break;
                 }
-                threshold = thresholdCandidate;
             }
 
             return threshold;
